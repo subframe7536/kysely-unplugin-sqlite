@@ -1,8 +1,8 @@
 {
-  "name": "kysely-unplugin",
+  "name": "kysely-unplugin-sqlite",
   "type": "module",
   "version": "0.0.1",
-  "description": "Unplugin for Kysely to optimize bundled size",
+  "description": "Unplugin for Kysely and SQLite to optimize bundled size",
   "author": "subframe7536",
   "license": "MIT",
   "repository": "https://github.com/subframe7536/kysely-unplugin",

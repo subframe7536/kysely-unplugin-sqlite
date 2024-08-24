@@ -1,6 +1,6 @@
-# kysely-unplugin
+# kysely-unplugin-sqlite
 
-Unplugin for Kysely to optimize bundled size
+Unplugin for Kysely and SQLite to optimize bundled size
 
 Trim kysely private properties and remove unsupported or unused methods
 
@@ -17,8 +17,6 @@ About 20% of the minified bundle size is reduced by default, up to **60%** when 
 
 **use at your own risk!**
 
-you need to install `unplugin` first (auto installed by peerDependencies)
-
 ## Get Started
 
 ### Install
@@ -33,7 +31,7 @@ yarn add kysely-unplugin
 pnpm add kysely-unplugin
 ```
 
-You should also install `kysely`, `unplugin` and `magic-string` in your project (Auto installed by peer dependencies).
+You should also install `kysely`, `unplugin` and `magic-string` in your project (Auto installed by peerDependencies).
 
 ### Usage
 
@@ -104,6 +102,8 @@ export type TransformOptions = {
 ## Example
 
 Build with `tsup` and setup `plugin.esbuild()`
+
+See in [/example](./example/)
 
 ```ts
 import { Kysely, sql } from 'kysely'
