@@ -5,7 +5,7 @@ import type { TransformOptions } from './types'
 export type { TransformOptions } from './types'
 
 /**
- * Unplugin for Kysely, trim kysely private properties and remove unsupported or unused methods
+ * Unplugin for Kysely and SQLite, trim kysely private properties and remove unsupported or unused methods
  *
  * Transform kysely esm code by default
  *
@@ -17,7 +17,7 @@ export type { TransformOptions } from './types'
  * - `ignore`
  * @example
  * import { defineConfig } from 'vite'
- * import { plugin } from 'kysely-sqlite-builder/plugin'
+ * import { plugin } from 'kysely-unplugin-sqlite'
  *
  * export default defineConfig({
  *   plugins: [plugin.vite({ dropMigrator: true })],

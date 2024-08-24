@@ -19,20 +19,14 @@ export type TransformOptions = {
   useDynamicTransformer?: boolean
   /**
    * Drop support of `migrator`, `instropection`, and remove all props in `adapter` except `supportsReturning: true`
-   *
-   * If you are using `defineTable`, recommend to set `true`
    */
   dropMigrator?: boolean
   /**
    * Drop support of `schema` and table management
-   *
-   * If you are using `defineTable`, recommend to set `true`
    */
   dropSchema?: boolean
   /**
    * Drop support of `delete`
-   *
-   * If you are using `createSoftDeleteExecutor`, recommend to set `true`
    */
   dropDelete?: boolean
   /**

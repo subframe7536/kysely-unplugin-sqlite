@@ -22,13 +22,13 @@ About 20% of the minified bundle size is reduced by default, up to **60%** when 
 ### Install
 
 ```sh
-npm install kysely-unplugin
+npm install kysely-unplugin-sqlite
 ```
 ```sh
-yarn add kysely-unplugin
+yarn add kysely-unplugin-sqlite
 ```
 ```sh
-pnpm add kysely-unplugin
+pnpm add kysely-unplugin-sqlite
 ```
 
 You should also install `kysely`, `unplugin` and `magic-string` in your project (Auto installed by peerDependencies).
@@ -37,7 +37,7 @@ You should also install `kysely`, `unplugin` and `magic-string` in your project 
 
 ```ts
 import { defineConfig } from 'vite'
-import { plugin } from 'kysely-sqlite-builder/plugin'
+import { plugin } from 'kysely-unplugin-sqlite'
 
 export default defineConfig({
   plugins: [plugin.vite({ dropMigrator: true })],
@@ -66,20 +66,14 @@ export type TransformOptions = {
   useDynamicTransformer?: boolean
   /**
    * Drop support of `migrator`, `instropection`, and remove all props in `adapter` except `supportsReturning: true`
-   *
-   * If you are using `defineTable`, recommend to set `true`
    */
   dropMigrator?: boolean
   /**
    * Drop support of `schema` and table management
-   *
-   * If you are using `defineTable`, recommend to set `true`
    */
   dropSchema?: boolean
   /**
    * Drop support of `delete`
-   *
-   * If you are using `createSoftDeleteExecutor`, recommend to set `true`
    */
   dropDelete?: boolean
   /**

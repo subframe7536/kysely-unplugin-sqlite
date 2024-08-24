@@ -5,7 +5,10 @@
   "description": "Unplugin for Kysely and SQLite to optimize bundled size",
   "author": "subframe7536",
   "license": "MIT",
-  "repository": "https://github.com/subframe7536/kysely-unplugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subframe7536/kysely-unplugin.git"
+  },
   "keywords": [
     "kysely",
     "sqlite",
