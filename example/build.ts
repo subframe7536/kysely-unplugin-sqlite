@@ -5,9 +5,10 @@ import { plugin } from '../src/index'
 
 const base = 'dist-test'
 async function buildAndTest(minify: boolean, options?: TransformOptions): Promise<string> {
+  const outDir = base + (minify ? '-minify' : '')
   await build({
     entry: ['example/index.ts'],
-    outDir: base,
+    outDir,
     noExternal: ['kysely', 'kysely-wasm'],
     minify,
     esbuildPlugins: options && [plugin.esbuild(options)],
@@ -15,8 +16,10 @@ async function buildAndTest(minify: boolean, options?: TransformOptions): Promis
     format: 'cjs',
     silent: true,
   })
-  const { size } = statSync(base + '/index.cjs')
-  rmSync(base, { recursive: true, force: true })
+  const { size } = statSync(outDir + '/index.cjs')
+  if (process.argv.includes('--clean')) {
+    rmSync(outDir, { recursive: true, force: true })
+  }
   return (size / 1024).toFixed(2)
 }
 
@@ -36,22 +39,27 @@ const result = {
   noMinifyWithPluginAll: await buildAndTest(false, pluginOptions),
 }
 
+const percent = ((+result.minify - +result.minifyWithPluginAll) / +result.minify * 100).toFixed(2)
 const output = `
 | Option                     | Size      | Minified Size |
 | -------------------------- | --------- | ------------- |
 | no plugin                  | ${result.noMinify} KB | ${result.minify} KB     |
 | with plugin                | ${result.noMinifyWithPlugin} KB | ${result.minifyWithPlugin} KB     |
-| with plugin of all options | ${result.noMinifyWithPluginAll} KB | ${result.minifyWithPluginAll} KB      |
+| with plugin of all options | ${result.noMinifyWithPluginAll} KB |  ${result.minifyWithPluginAll} KB     |
+
+Trim **${percent}%** at most
 `
 
 console.log(output)
 
-const readme = readFileSync('README.md', 'utf-8')
+if (!process.argv.includes('--dry')) {
+  const readme = readFileSync('README.md', 'utf-8')
 
-writeFileSync(
-  'README.md',
-  readme.replace(
-    /### Build Result[\s\S]*## License/,
-    `### Build Result\n${output}\n## License`,
-  ),
-)
+  writeFileSync(
+    'README.md',
+    readme.replace(
+      /### Build Result[\s\S]*## License/,
+      `### Build Result\n${output}\n## License`,
+    ),
+  )
+}

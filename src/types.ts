@@ -22,7 +22,7 @@ export type TransformOptions = {
    */
   dropMigrator?: boolean
   /**
-   * Drop support of `schema` and table management
+   * Drop support of `schema`, `withSchema` and table management
    */
   dropSchema?: boolean
   /**
