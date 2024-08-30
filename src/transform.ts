@@ -21,8 +21,14 @@ export function transformKyselyCode(code: string, id: string, options: Transform
   }
 
   if (options.dropDelete) {
-    if (has('delete-query-builder')) {
+    if (has('delete-query-builder', 'delete-query-node')) {
       return ';'
+    }
+    if (has('query-creator')) {
+      replace(methodRegexWithSemicolon('deleteFrom'), '')
+    }
+    if (has('default-query-compiler')) {
+      replace(/visitDeleteQuery[\s\S]*(?=visitReturning)/g, '')
     }
   }
   if (options.dropMigrator) {
