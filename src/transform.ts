@@ -57,10 +57,12 @@ export function transformKyselyCode(code: string, id: string, options: Transform
   if (options.dropSchema) {
     if (has('expression-builder')) {
       replace(/withSchema\(.*?\) \{[\s\S]*?\},/, '')
-    } else if (has('kysely.js', 'query-creator')) {
+    }
+    if (has('kysely.js', 'query-creator')) {
       replace(methodRegexWithSemicolon('withSchema'), '')
       replace(/get schema\(\) \{[\s\S]*?\}/g, '')
-    } else if (has(
+    }
+    if (has(
       '-view-node',
       '-table-node',
       '-index-node',
@@ -68,7 +70,8 @@ export function transformKyselyCode(code: string, id: string, options: Transform
       '-schema-node',
     )) {
       return ';'
-    } else if (has('default-query-compiler')) {
+    }
+    if (has('default-query-compiler')) {
       replace('!CreateTableNode.is(this.parentNode) &&', '')
       replace('!CreateViewNode.is(this.parentNode) &&', '')
       replace(/visitCreateTable[\s\S]*(?=visitList)/, '')
@@ -190,6 +193,7 @@ export function transformKyselyCode(code: string, id: string, options: Transform
   replace(/#connection/g, '_cn')
   replace(/#runningPromise/g, '_rp')
   replace(/#/g, '_')
+  replace(/\?\? result.numUpdatedOrDeletedRows/g, '')
 
   if (options.minifyMethodName) {
     replace(/append/g, '_a')
