@@ -3,6 +3,22 @@ import { build } from 'tsup'
 import type { TransformOptions } from '../src/index'
 import { plugin } from '../src/index'
 
+function findTopOccurrenceSubstrings(s: string, topN: number = 20): any {
+  const substrings = s.split(/[\s=\p{P}]+/u).filter(str => str.length > 0)
+
+  const scores = new Map<string, number>()
+  for (const substr of substrings) {
+    const score = substr.length * substrings.filter(str => str === substr).length
+    scores.set(substr, score)
+  }
+
+  return Object.fromEntries(
+    Array.from(scores.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, topN),
+  )
+}
+
 const base = 'dist-test'
 async function buildAndTest(minify: boolean, options?: TransformOptions): Promise<string> {
   const outDir = base + (minify ? '-minify' : '')
@@ -16,18 +32,27 @@ async function buildAndTest(minify: boolean, options?: TransformOptions): Promis
     format: 'cjs',
     silent: true,
   })
-  const { size } = statSync(outDir + '/index.cjs')
+  const targetPath = outDir + '/index.cjs'
+  if (minify && options?.dropDelete) {
+    console.log('keyword x length rank:')
+    console.table(findTopOccurrenceSubstrings(readFileSync(targetPath, 'utf8')))
+  }
+  const { size } = statSync(targetPath)
   if (process.argv.includes('--clean')) {
     rmSync(outDir, { recursive: true, force: true })
   }
+
   return (size / 1024).toFixed(2)
 }
 
-const pluginOptions: TransformOptions = {
+const pluginWithDeleteOptions: TransformOptions = {
   dropMigrator: true,
   dropSchema: true,
-  dropDelete: true,
   minifyMethodName: true,
+}
+const pluginOptions: TransformOptions = {
+  ...pluginWithDeleteOptions,
+  dropDelete: true,
 }
 
 const result = {
@@ -35,6 +60,8 @@ const result = {
   noMinify: await buildAndTest(false),
   minifyWithPlugin: await buildAndTest(true, {}),
   noMinifyWithPlugin: await buildAndTest(false, {}),
+  minifyWithDelete: await buildAndTest(true, pluginWithDeleteOptions),
+  noMinifyWithDelete: await buildAndTest(false, pluginWithDeleteOptions),
   minifyWithPluginAll: await buildAndTest(true, pluginOptions),
   noMinifyWithPluginAll: await buildAndTest(false, pluginOptions),
 }
@@ -45,6 +72,7 @@ const output = `
 | -------------------------- | --------- | ------------- |
 | no plugin                  | ${result.noMinify} KB | ${result.minify} KB     |
 | with plugin                | ${result.noMinifyWithPlugin} KB | ${result.minifyWithPlugin} KB     |
+| with plugin of recommended | ${result.noMinifyWithDelete} KB |  ${result.minifyWithDelete} KB     |
 | with plugin of all options | ${result.noMinifyWithPluginAll} KB |  ${result.minifyWithPluginAll} KB     |
 
 Trim **${percent}%** at most

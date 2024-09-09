@@ -93,11 +93,22 @@ export type TransformOptions = {
 }
 ```
 
+### Recommended
+
+If just need a query builder, it is recommended to just use
+```ts
+const options = {
+  dropMigrator: true,
+  dropSchema: true,
+  minifyMethodName: true,
+}
+```
+
 ## Example
 
 Build with `tsup` and setup `plugin.esbuild()`
 
-See in [/example](./example/)
+See in [example/](./example/)
 
 ```ts
 import { Kysely, sql } from 'kysely'
