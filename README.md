@@ -131,6 +131,7 @@ console.log(db.insertInto('test').values({ test: 1 }).compile().sql)
 | -------------------------- | --------- | ------------- |
 | no plugin                  | 344.13 KB | 131.26 KB     |
 | with plugin                | 296.31 KB | 111.01 KB     |
+| with plugin of recommended | 184.67 KB |  59.34 KB     |
 | with plugin of all options | 168.67 KB |  55.49 KB     |
 
 Trim **57.73%** at most
