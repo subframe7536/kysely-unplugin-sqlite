@@ -36,8 +36,8 @@ You should also install `kysely`, `unplugin` and `magic-string` in your project 
 ### Usage
 
 ```ts
-import { defineConfig } from 'vite'
 import { plugin } from 'kysely-unplugin-sqlite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [plugin.vite({ dropMigrator: true })],
