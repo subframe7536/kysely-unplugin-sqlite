@@ -48,6 +48,7 @@ async function buildAndTest(minify: boolean, options?: TransformOptions): Promis
 const pluginWithDeleteOptions: TransformOptions = {
   dropMigrator: true,
   dropSchema: true,
+  dropReplace: true,
   minifyMethodName: true,
 }
 const pluginOptions: TransformOptions = {
