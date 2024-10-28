@@ -9,4 +9,4 @@ export function test(): Promise<unknown> {
   return sql`select 1`.execute(db)
 }
 
-console.log(db.insertInto('test').values({ test: 1 }).compile().sql)
+console.log(db.replaceInto('test').values({ test: 1 }).compile().sql)

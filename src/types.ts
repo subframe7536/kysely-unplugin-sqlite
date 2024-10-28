@@ -30,6 +30,10 @@ export type TransformOptions = {
    */
   dropDelete?: boolean
   /**
+   * Drop support of `replace into`
+   */
+  dropReplace?: boolean
+  /**
    * Minify method name, maybe you should also setup `filter`
    *
    * method names:

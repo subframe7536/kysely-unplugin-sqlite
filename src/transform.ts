@@ -137,7 +137,9 @@ export function transformKyselyCode(code: string, id: string, options: Transform
     replace(/top: this.transformNode\(node.top\),/g, '')
     replace(/ignore: node.ignore,/g, '')
     replace('fetch: this.transformNode(node.fetch),', '')
-    replace(/replace: node.replace,/g, '')
+    if (options.dropReplace) {
+      replace(/replace: node.replace,/g, '')
+    }
 
     if (options?.useDynamicTransformer) {
       replace(/#transformers = freeze\([\s\S]*?\}\);/, '')
@@ -154,8 +156,10 @@ export function transformKyselyCode(code: string, id: string, options: Transform
     replace(/visitFetch[\s\S]*(?=append\(str\))/g, '')
     replace(/if \(node.fetch\) \{[\s\S]*?\}/g, '')
     replace(/if \(node.top\) \{[\s\S]*?\}/g, '')
-    replace('this.append(node.replace ? \'replace\' : \'insert\');', 'this.append(\'insert\');')
     replace(' extends OperationNodeVisitor', '')
+    if (options.dropReplace) {
+      replace('this.append(node.replace ? \'replace\' : \'insert\');', 'this.append(\'insert\');')
+    }
 
     replace(/visit(\w+)\(.*\) \{/g, (_, str) => `${str}Node(node) {`)
     replace('#parameters = [];', `#parameters = [];
@@ -171,8 +175,10 @@ export function transformKyselyCode(code: string, id: string, options: Transform
   }
 
   if (has('query-creator')) {
-    replace(methodRegexWithSemicolon('replaceInto'), '')
     replace(methodRegexWithSemicolon('mergeInto'), '')
+    if (options.dropReplace) {
+      replace(methodRegexWithSemicolon('replaceInto'), '')
+    }
   }
   if (has('query-executor-base')) {
     replace('warnOfOutdatedDriverOrPlugins(result, transformedResult);', '')
