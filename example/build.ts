@@ -1,7 +1,7 @@
+import type { TransformOptions } from '../src/index'
 import { readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { build } from 'tsup'
 import { plugin } from '../src/index'
-import type { TransformOptions } from '../src/index'
 
 function findTopOccurrenceSubstrings(s: string, topN: number = 20): any {
   const substrings = s.split(/[\s=\p{P}]+/u).filter(str => str.length > 0)

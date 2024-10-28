@@ -1,6 +1,6 @@
+import type { TransformOptions } from './types'
 import { createUnplugin } from 'unplugin'
 import { transformKyselyCode } from './transform'
-import type { TransformOptions } from './types'
 
 export type { TransformOptions } from './types'
 

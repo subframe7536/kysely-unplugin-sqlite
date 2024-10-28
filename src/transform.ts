@@ -1,6 +1,6 @@
-import MagicString from 'magic-string'
 import type { TransformResult } from 'unplugin'
 import type { TransformOptions } from './types'
+import MagicString from 'magic-string'
 
 function methodRegexWithSemicolon(methodName: string, tail = ''): RegExp {
   return new RegExp(`${methodName}\\(([^)]*)\\) \\{[\\s\\S]*?;[\\s\\S]*?}${tail}`, 'gm')
