@@ -1,5 +1,6 @@
-import type { TransformResult } from 'unplugin'
 import type { TransformOptions } from './types'
+import type { TransformResult } from 'unplugin'
+
 import MagicString from 'magic-string'
 
 function methodRegexWithSemicolon(methodName: string, tail = ''): RegExp {
