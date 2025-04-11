@@ -27,14 +27,16 @@ export type { TransformOptions } from './types'
  */
 export const plugin = createUnplugin<TransformOptions | undefined>(
   (options = {}) => {
-    const { filter = () => false, useDynamicTransformer = true, ...rest } = options
+    const { filter = /(?=.*kysely)(?=.*esm).+/, useDynamicTransformer = true, ...rest } = options
     return {
       name: 'unplugin-kysely',
-      transformInclude(id) {
-        return (id.includes('kysely') && id.includes('esm')) || filter(id)
-      },
-      transform(code, id) {
-        return transformKyselyCode(code, id, { useDynamicTransformer, ...rest })
+      transform: {
+        filter: {
+          id: filter,
+        },
+        handler(code, id) {
+          return transformKyselyCode(code, id, { useDynamicTransformer, ...rest })
+        },
       },
     }
   },

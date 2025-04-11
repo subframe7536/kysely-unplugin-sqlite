@@ -50,9 +50,9 @@ export default defineConfig({
 export type TransformOptions = {
   /**
    * Filter files to be transformed
-   * @param filePath file path
+   * @default /(?=.*kysely)(?=.*esm).+/
    */
-  filter?: (filePath: string) => boolean
+  filter?: StringFilter
   /**
    * Custom extra transformer
    * @param code source code
