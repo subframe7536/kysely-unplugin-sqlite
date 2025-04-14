@@ -186,6 +186,9 @@ export function transformKyselyCode(code: string, id: string, options: Transform
   }
 
   replace(/preventAwait\(.*?\)/g, '')
+  replace(/queryNode/g, 'qn')
+  replace(/\bQueryNode/g, 'QN')
+  replace(/compileList/g, 'CL')
   replace(/(?:freeze|requireAllProps),?/g, '')
   replace(/#props/g, '_p')
   replace(/#db/g, '_d')
